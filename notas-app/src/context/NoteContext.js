@@ -4,6 +4,7 @@ export const NoteContext = createContext();
 
 export const NoteProvider = ({ children }) => {
   const [notes, setNotes] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const addNote = (note) => {
     setNotes([...notes, { id: Date.now(), ...note }]);
@@ -19,8 +20,21 @@ export const NoteProvider = ({ children }) => {
     ));
   };
 
+  const filteredNotes = notes.filter((note) =>
+    note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    note.content.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
-    <NoteContext.Provider value={{ notes, addNote, deleteNote, updateNote }}>
+    <NoteContext.Provider value={{ 
+      notes, 
+      filteredNotes,
+      searchTerm,
+      setSearchTerm,
+      addNote, 
+      deleteNote, 
+      updateNote 
+    }}>
       {children}
     </NoteContext.Provider>
   );
