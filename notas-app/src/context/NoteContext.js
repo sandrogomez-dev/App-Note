@@ -13,8 +13,14 @@ export const NoteProvider = ({ children }) => {
     setNotes(notes.filter((note) => note.id !== id));
   };
 
+  const updateNote = (id, updatedNote) => {
+    setNotes(notes.map((note) => 
+      note.id === id ? { ...note, ...updatedNote } : note
+    ));
+  };
+
   return (
-    <NoteContext.Provider value={{ notes, addNote, deleteNote }}>
+    <NoteContext.Provider value={{ notes, addNote, deleteNote, updateNote }}>
       {children}
     </NoteContext.Provider>
   );
